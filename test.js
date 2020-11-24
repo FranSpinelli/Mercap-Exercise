@@ -1,14 +1,13 @@
 const assert = require("chai").assert;
 const llamadas = require("./Llamadas");
 const errores = require("./Errores");
-const {  Sabado, Lunes, Viernes, Domingo } = require("./DiasDeLaSemana");
+const {  Sabado, Lunes, Viernes, Domingo, Martes, Miercoles } = require("./DiasDeLaSemana");
 const { PersonalizedTime } = require("./PersonalizedTime");
 const { LlamadaInternacional, LlamadaLocal, LlamadaNacional } = require("./Llamadas");
-const { Brazil, CABA, Uruguay} = require("./lugaresConServicioTelefonico")
+const { Brazil, CABA, Uruguay, Quilmes} = require("./lugaresConServicioTelefonico")
+const {SistemaDeFacturacion} = require("./Usuario");
 
 describe('MomentoDeInicioDeLlamadaTest', function() {
-
-    beforeEach(() => {});
   
     //Se testea los errores de esta manera ya que la forma propuesta por la libreria no me estaba funcionando
     //correctamente debido a un falso positivo, y no queria perder tiempo investigando eso.
@@ -55,8 +54,6 @@ describe('MomentoDeInicioDeLlamadaTest', function() {
 
 
 describe('Llamada Test', function() {
-
-    beforeEach(() => {});
   
     it('una llamada tiene una hora, minuto y dia de la semana de inicio', () => {
         let dia = new Sabado()
@@ -161,4 +158,27 @@ describe('Llamada Test', function() {
         let llamada = new LlamadaLocal(momentoDeInicio, 6)
         assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 60);
     })
+});
+
+describe('Sistema de facturacion test', function() {
+  
+    it('un sistema de facturacion puede generar Facturas con un monto fijo y 2 subtotales', 
+    () => {
+        
+        let sistemaDeFacturacion = new SistemaDeFacturacion(1)
+        let horario1 = new PersonalizedTime(12,00, new Lunes())
+        sistemaDeFacturacion.registrarLlamadaLocal(horario1, 1)
+
+        let horario2 = new PersonalizedTime(21,00, new Martes())
+        sistemaDeFacturacion.registrarLlamadaNacional(horario2, 1, new Quilmes())
+
+        let horario3 = new PersonalizedTime(2,00, new Miercoles())
+        sistemaDeFacturacion.registrarLlamadaInternacional(horario3, 1, new Uruguay())
+
+        let factura = sistemaDeFacturacion.generarFactura()
+
+        assert.equal(factura.montoFijo.cantidadDeCentavos, 100)
+        assert.equal(factura.subtotalLlamadasLocales.cantidadDeCentavos, 20)
+        assert.equal(factura.subtotalLlamadasNacionalesEInternacionales.cantidadDeCentavos, 20)
+    });
 });
