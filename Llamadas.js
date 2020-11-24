@@ -37,8 +37,8 @@ class LlamadaLocal extends Llamada {
     }
 
     get valorDeLaLlamada(){
-        let valorFinal = this._momentoDeInicio.diaDeLaSemana.indicarComoCalcularValorDeLlamada(this)
-        return new Centavo(valorFinal)
+        return this._momentoDeInicio.diaDeLaSemana.indicarComoCalcularValorDeLlamada(this)
+        //return new Centavo(valorFinal)
     }
 
     calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinutoDeLlamada, 
@@ -91,8 +91,8 @@ class LlamadaNacional extends Llamada {
     }
 
     get valorDeLaLlamada(){
-        let valorFinal = this._duracionEnMinutos * this._localidadALaQueSeLlama.valorMinutoDeLlamadaEnLugar
-        return new Centavo(valorFinal)
+        return this._duracionEnMinutos * this._localidadALaQueSeLlama.valorMinutoDeLlamadaEnLugar
+        //return new Centavo(valorFinal)
     }
 }
 
@@ -111,8 +111,8 @@ class LlamadaInternacional extends Llamada {
     }
 
     get valorDeLaLlamada(){
-        let valorFinal = this._duracionEnMinutos * this._paisAlQueSellama.valorMinutoDeLlamadaEnLugar
-        return new Centavo(valorFinal)
+        return this._duracionEnMinutos * this._paisAlQueSellama.valorMinutoDeLlamadaEnLugar
+        //return new Centavo(valorFinal)
     }
 }
 

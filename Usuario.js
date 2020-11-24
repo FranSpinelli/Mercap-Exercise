@@ -1,5 +1,5 @@
 const {Centavo} = require("./Centavo");
-const { LlamadaLocal } = require("./Llamadas");
+const { LlamadaLocal, LlamadaNacional, LlamadaInternacional } = require("./Llamadas");
 
 class SistemaDeFacturacion{
 
@@ -26,7 +26,7 @@ class SistemaDeFacturacion{
         //unaDuracion :: entero
         //unaLocalidad :: localidadConServicioTelefonico
 
-        let llamada = new LlamadaLocal(unaHoraDeinicio, unaDuracion, unaLocalidad)
+        let llamada = new LlamadaNacional(unaHoraDeinicio, unaDuracion, unaLocalidad)
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura.push(llamada)
         return llamada
     }
@@ -36,7 +36,7 @@ class SistemaDeFacturacion{
         //unaDuracion :: entero
         //unapais :: paisConServicioTelefonico
 
-        let llamada = new LlamadaLocal(unaHoraDeinicio, unaDuracion, unPais)
+        let llamada = new LlamadaInternacional(unaHoraDeinicio, unaDuracion, unPais)
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura.push(llamada)
         return llamada
     }
@@ -44,21 +44,21 @@ class SistemaDeFacturacion{
     generarFactura(){
         let montoTotalLlamadasLocales =  this._llamadasLocalesRealizadasNoIncluidasEnFactura.reduce(
             (acumulador, llamada) => { 
-                return acumulador.sumar(llamada.valorDeLaLlamada)}, new Centavo(0)
+                return acumulador + llamada.valorDeLaLlamada}, 0
         )
 
         let montoTotalLlamadasNacEInternac = 
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura.reduce(
             (acumulador, llamada) => {
-                return acumulador.sumar(llamada.valorDeLaLlamada)}, new Centavo(0)
+                return acumulador + llamada.valorDeLaLlamada}, 0
         )
-        console.log(montoTotalLlamadasNacEInternac)
+        
         this._llamadasLocalesRealizadasNoIncluidasEnFactura = []
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura = []
 
         let nuevaFactura = new Factura(this._montoFijoDeFacturacion, 
-            montoTotalLlamadasLocales, 
-            montoTotalLlamadasNacEInternac
+            new Centavo(montoTotalLlamadasLocales), 
+            new Centavo (montoTotalLlamadasNacEInternac)
         )
 
         this._facturasGeneradas.push(nuevaFactura)
