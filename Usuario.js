@@ -4,6 +4,8 @@ const { LlamadaLocal } = require("./Llamadas");
 class SistemaDeFacturacion{
 
     constructor(unMontoDeFacturacion){
+        //montoDeFacturacion :: entero
+
         this._llamadasLocalesRealizadasNoIncluidasEnFactura = [];
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura = [];
         this._facturasGeneradas = [];
@@ -11,18 +13,29 @@ class SistemaDeFacturacion{
     }
 
     registrarLlamadaLocal(unaHoraDeinicio, unaDuracion){
+        //unaHoraDeInicio :: personalizedTime
+        //unaDuracion :: entero
+
         let llamada = new LlamadaLocal(unaHoraDeinicio, unaDuracion)
         this._llamadasLocalesRealizadasNoIncluidasEnFactura.push(llamada)
         return llamada
     }
 
     registrarLlamadaNacional(unaHoraDeinicio, unaDuracion, unaLocalidad){
+        //unaHoraDeInicio :: personalizedDate
+        //unaDuracion :: entero
+        //unaLocalidad :: localidadConServicioTelefonico
+
         let llamada = new LlamadaLocal(unaHoraDeinicio, unaDuracion, unaLocalidad)
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura.push(llamada)
         return llamada
     }
 
     registrarLlamadaInternacional(unaHoraDeinicio, unaDuracion, unPais){
+        //unaHoraDeInicio :: personalizedDate
+        //unaDuracion :: entero
+        //unapais :: paisConServicioTelefonico
+
         let llamada = new LlamadaLocal(unaHoraDeinicio, unaDuracion, unPais)
         this._llamadasNacionalesEInternacionalesRealizadasNoIncluidasEnFactura.push(llamada)
         return llamada
@@ -55,6 +68,10 @@ class SistemaDeFacturacion{
 
 class Factura{
     constructor(unMontoFijo, unSubTotalDeLlamadasLocales, unSubtotalLlamadasNacEInternac){
+        //unMontoFijo :: Centavo
+        //unSubTotalDeLlamadasLocales :: Centavo
+        //unSubTotalDeLlamadasNacEInternac :: Centavo
+
         this._montoFijo = unMontoFijo;
         this._subtotalLlamadasLocales = unSubTotalDeLlamadasLocales;
         this._subtotalLlamadasNacionalesEInternac = unSubtotalLlamadasNacEInternac;

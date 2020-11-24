@@ -4,6 +4,9 @@ const errores = require("./Errores");
 class Llamada {
    
     constructor(unMomentoDeInicio, unaDuracionEnMinutos){
+        //unMomentoDeInicio :: personalizedDate
+        //unaDuracion :: entero
+
         if (this.constructor === Llamada) {
             throw new Error("Can't instantiate abstract class!");
         }else if (Number.isInteger(unaDuracionEnMinutos)){
@@ -26,6 +29,9 @@ class Llamada {
 
 class LlamadaLocal extends Llamada {
     constructor(unMomentoDeinicio, unaDuracionEnMinutos){
+        //unMomentoDeInicio :: personalizedDate
+        //unaDuracion :: entero
+
         super(unMomentoDeinicio, unaDuracionEnMinutos);
         this._calculadorDeValor = new CalculadorDeValor();
     }
@@ -35,9 +41,13 @@ class LlamadaLocal extends Llamada {
         return new Centavo(valorFinal)
     }
 
-    calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinutoDeLlamada, cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
+    calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinutoDeLlamada, 
+        cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
         valorDeLaLlamadaYaCobrado = 0){
-        
+        //valorDelMinutoDeLlamada = entero
+        //cantidadDeMinutosPorCobrarDeLaLlamada = entero
+        //valorDeLaLlamadaYaCobrado = entero
+
         let funcionCobradora = (valorActual) => {return valorActual + valorDelMinutoDeLlamada;} 
 
         return this._calculadorDeValor.calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
@@ -48,7 +58,11 @@ class LlamadaLocal extends Llamada {
         valorDeLaLlamadaYaCobrado = 0,
         horaDeInicioDeLaLlamada = this._momentoDeInicio.hora,
         minutoDeInicioDeLaLlamada = this._momentoDeInicio.minutos){
-        
+        //horaDeInicioDeLaLlamada = entero
+        //minutoDeInicioDeLaLlamada = entero
+        //cantidadDeMinutosPorCobrarDeLaLlamada = entero
+        //valorDeLaLlamadaYaCobrado = entero
+
         let funcionCobradora = (valorActual, horaQueSeCobra) => { 
             if(horaQueSeCobra >= 8 && horaQueSeCobra < 20){
                 return valorActual += 0.20;
@@ -64,6 +78,10 @@ class LlamadaLocal extends Llamada {
 
 class LlamadaNacional extends Llamada {
     constructor(unMomentoDeinicio, unaDuracionEnMinutos, unaLocalidadALaQueSeLlama){
+        //unMomentoDeInicio :: personalizedDate
+        //unaDuracionEnMinutos :: entero
+        //unaLocalidadALaQueSeLlama :: localidadConServicioTelefopnico
+
         if(esLugarValidoAlQueSeLlama(unaLocalidadALaQueSeLlama, "LocalidadConServicioTelefonico")){
             super(unMomentoDeinicio, unaDuracionEnMinutos);
             this._localidadALaQueSeLlama = unaLocalidadALaQueSeLlama;
@@ -80,6 +98,10 @@ class LlamadaNacional extends Llamada {
 
 class LlamadaInternacional extends Llamada {
     constructor(unMomentoDeinicio, unaDuracionEnMinutos, unPaisAlQueSeLlama){
+        //unMomentoDeInicio :: personalizedDate
+        //unaDuracionEnMinutos :: entero
+        //unaLocalidadALaQueSeLlama :: localidadConServicioTelefopnico
+
         if(esLugarValidoAlQueSeLlama(unPaisAlQueSeLlama, "PaisConServicioTelefonico")){
             super(unMomentoDeinicio, unaDuracionEnMinutos);
             this._paisAlQueSellama = unPaisAlQueSeLlama;
@@ -96,13 +118,21 @@ class LlamadaInternacional extends Llamada {
 
 //funcion para chequear que sea un lugar valido, antes de instanciar la clase
 function esLugarValidoAlQueSeLlama(unLugarAlQueSeLlama, unLugarAlQueSeEspereLQueLlame){
+   //unLugarAlQueSeLlama :: LugarConServicioTelefonico
+   // unLugarAlQueSeEspereLQueLlame :: String
    return Object.getPrototypeOf(Object.getPrototypeOf(unLugarAlQueSeLlama)).constructor.name === unLugarAlQueSeEspereLQueLlame;
 }
 
 class CalculadorDeValor{
     //esta tiene como unico proposito sacarle la tarea del calculo del valor a la llamadaLocal, ya que este calculo es considerado complejo
     calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado, horaDeInicio, minutoDeInicio,
-        funcionCobradora, unaLlamada){
+        funcionCobradora,unaLlamada){
+        //horaDeInicioa :: entero
+        //minutoDeInicio :: entero
+        //cantidadDeMinutosPorCobrarDeLaLlamada :: entero
+        //valorDeLaLlamadaYaCobrado :: entero
+        //unaLlamada :: llamada
+        //funcionCobradora :: arrow function
             
         let horaDesdeLaQueSeCobra = horaDeInicio;
         let minutoDesdeElQueSeCobra = minutoDeInicio;

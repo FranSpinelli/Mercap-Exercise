@@ -8,6 +8,8 @@ class Centavo{
     get cantidadDeCentavos(){return dollarsToCents(this._cantidadDeCentavos)}
 
     sumar(otroCentavo){
+        //otroCentavo :: Centavo
+
         this._cantidadDeCentavos += otroCentavo._cantidadDeCentavos
         return this
     }

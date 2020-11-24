@@ -1,6 +1,7 @@
 class LugarConServicioTelefonico{
     
     constructor(unValor){
+        //unValor :: entero
         if (this.constructor === LugarConServicioTelefonico) {
             throw new Error("Can't instantiate abstract class!");
         }else{

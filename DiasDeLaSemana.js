@@ -1,6 +1,8 @@
 class DiaDeLaSemana{
 
     constructor(unValorDeLlamada){
+        //unValorDeLlamada :: entero
+
         if (this.constructor === DiaDeLaSemana) {
             throw new Error("Can't instantiate abstract class!");
         }else{
@@ -19,11 +21,16 @@ class DiaDeLaSemana{
 
 class DiaNoHabil extends DiaDeLaSemana{
     constructor(unValorDeLlamada){
+        //unValorDeLaLlamada :: entero
         super(unValorDeLlamada)
     }
 
     indicarComoCalcularValorDeLlamada(unaLlamada, cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado){
-        
+        //unaLlamada :: llamada
+        //cantidadDeMinutosPorCobrarDeLaLlamad :: entero
+        // valorDeLaLlamadaYaCobrado :: entero
+
+
         return unaLlamada.calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(this._valorMinutoDeLlamada,
             cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado)
     }
@@ -31,12 +38,19 @@ class DiaNoHabil extends DiaDeLaSemana{
 
 class DiaHabil extends DiaDeLaSemana{
     constructor(unValorDeLlamada){
+        //unValorDeLaLlamada :: entero
         super(unValorDeLlamada)
     }
 
     indicarComoCalcularValorDeLlamada(unaLlamada, cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
         horaDeInicio = unaLlamada.horaDeInicio, minutoDeInicio = unaLlamada.minutoDeInicio){
-
+        
+        //unaLlamada :: llamada
+        //cantidadDeMinutosPorCobrarDeLaLlamad :: entero
+        // valorDeLaLlamadaYaCobrado :: entero
+        //horaDeInicio :: entero
+        //minutoDeInicio :: entero
+        
         return unaLlamada.calcularValorDeLlamadaRealizadaDuranteDiaHabil(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado, 
             horaDeInicio, minutoDeInicio)
     }

@@ -3,6 +3,10 @@ const errores = require("./Errores");
 class PersonalizedTime {
 
     constructor(unaHoraDeInicio, unaCantidadDeMinutos, unDiaDeLaSemana){
+        //_horaDeInicio :: entero
+        //unaCantidadDeMinutos :: entero
+        //unDiaDeLaSemana :: DiaDeLaSemana
+
         if (this.esUnaHoraValida(unaHoraDeInicio) && this.esUnaCantidadDeMinutosValida(unaCantidadDeMinutos)){
             this._horaDeInicio = unaHoraDeInicio;
             this._cantidadDeMinutosAlIniciar = unaCantidadDeMinutos;
@@ -17,10 +21,13 @@ class PersonalizedTime {
     get diaDeLaSemana(){return this._diaDeLaSemana;}
 
     esUnaHoraValida(unaHoraDeInicio){
+        //unaHoraDeInicio :: entero
         return Number.isInteger(unaHoraDeInicio) && unaHoraDeInicio >= 0 && unaHoraDeInicio <= 23
     }
 
     esUnaCantidadDeMinutosValida(unaCantidadDeMinutos){
+        //unaCantidadDeMinutos :: entero
+        
         return Number.isInteger(unaCantidadDeMinutos) && unaCantidadDeMinutos >= 0 && unaCantidadDeMinutos <= 59
     }
 }
