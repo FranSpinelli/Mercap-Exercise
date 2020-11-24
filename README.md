@@ -3,6 +3,7 @@ Ejercicio tecnico para Mercap, el cual consiste en la realizacion de un sistema 
 
 ## Comentarios:
 - Se pensaron los siguientes casos para las llamadas locales:
+- Se decidió utilizar una node como herramienta ya que si bien no es orientado a objetos, es la herramienta con un tipado dinamicico(como smalltalk) que mas manejo,
 - realizar llamadas dentro de hora pico.
 - realizar llamadas fuera de hora pico.
 - realizar llamadas que arranquen en hora pico y terminen fuera de esta.
