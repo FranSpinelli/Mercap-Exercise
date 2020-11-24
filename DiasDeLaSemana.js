@@ -23,6 +23,7 @@ class DiaNoHabil extends DiaDeLaSemana{
     }
 
     indicarComoCalcularValorDeLlamada(unaLlamada, cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado){
+        
         return unaLlamada.calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(this._valorMinutoDeLlamada,
             cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado)
     }
@@ -35,6 +36,7 @@ class DiaHabil extends DiaDeLaSemana{
 
     indicarComoCalcularValorDeLlamada(unaLlamada, cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
         horaDeInicio = unaLlamada.horaDeInicio, minutoDeInicio = unaLlamada.minutoDeInicio){
+
         return unaLlamada.calcularValorDeLlamadaRealizadaDuranteDiaHabil(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado, 
             horaDeInicio, minutoDeInicio)
     }

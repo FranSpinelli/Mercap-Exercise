@@ -1,3 +1,4 @@
+const {Centavo} = require("./Centavo");
 const errores = require("./Errores");
 
 class Llamada {
@@ -13,8 +14,8 @@ class Llamada {
         }
     }
 
-    get horaDeInicioDeLlamada(){return this._momentoDeInicio.horaDeInicio}
-    get minutoDeInicioDeLlamada(){return this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada}
+    get horaDeInicioDeLlamada(){return this._momentoDeInicio.hora}
+    get minutoDeInicioDeLlamada(){return this._momentoDeInicio.minutos}
     get diaEnQueSeRealizoLaLlamada(){return this._momentoDeInicio.diaDeLaSemana}
     get duracionEnMinutos(){return this._duracionEnMinutos}
 
@@ -29,22 +30,24 @@ class LlamadaLocal extends Llamada {
         this._calculadorDeValor = new CalculadorDeValor();
     }
 
-    get valorDeLaLlamada(){return this._momentoDeInicio.diaDeLaSemana.indicarComoCalcularValorDeLlamada(this)}
+    get valorDeLaLlamada(){
+        let valorFinal = this._momentoDeInicio.diaDeLaSemana.indicarComoCalcularValorDeLlamada(this)
+        return new Centavo(valorFinal)
+    }
 
-    calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinuto, cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
-        valorDeLaLlamadaYaCobrado= 0){
+    calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinutoDeLlamada, cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
+        valorDeLaLlamadaYaCobrado = 0){
         
-        let funcionCobradora = (valorActual) => {return valorActual + valorDelMinuto;} 
+        let funcionCobradora = (valorActual) => {return valorActual + valorDelMinutoDeLlamada;} 
 
         return this._calculadorDeValor.calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
-            this._momentoDeInicio.horaDeInicio, this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada, funcionCobradora, this)
-
+        this._momentoDeInicio.hora, this._momentoDeInicio.minutos, funcionCobradora, this)
     }
 
     calcularValorDeLlamadaRealizadaDuranteDiaHabil(cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
         valorDeLaLlamadaYaCobrado = 0,
-        horaDeInicio = this._momentoDeInicio.horaDeInicio,
-        minutoDeInicio = this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada){
+        horaDeInicioDeLaLlamada = this._momentoDeInicio.hora,
+        minutoDeInicioDeLaLlamada = this._momentoDeInicio.minutos){
         
         let funcionCobradora = (valorActual, horaQueSeCobra) => { 
             if(horaQueSeCobra >= 8 && horaQueSeCobra < 20){
@@ -55,8 +58,7 @@ class LlamadaLocal extends Llamada {
         }
         
         return this._calculadorDeValor.calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
-            horaDeInicio, minutoDeInicio, funcionCobradora, this)
-    
+            horaDeInicioDeLaLlamada, minutoDeInicioDeLaLlamada, funcionCobradora, this)   
     }
 }
 
@@ -70,7 +72,10 @@ class LlamadaNacional extends Llamada {
         }
     }
 
-    get valorDeLaLlamada(){return this._duracionEnMinutos * this._localidadALaQueSeLlama.valorMinutoDeLlamadaEnLugar}
+    get valorDeLaLlamada(){
+        let valorFinal = this._duracionEnMinutos * this._localidadALaQueSeLlama.valorMinutoDeLlamadaEnLugar
+        return new Centavo(valorFinal)
+    }
 }
 
 class LlamadaInternacional extends Llamada {
@@ -83,9 +88,13 @@ class LlamadaInternacional extends Llamada {
         }
     }
 
-    get valorDeLaLlamada(){return this._duracionEnMinutos * this._paisAlQueSellama.valorMinutoDeLlamadaEnLugar}
+    get valorDeLaLlamada(){
+        let valorFinal = this._duracionEnMinutos * this._paisAlQueSellama.valorMinutoDeLlamadaEnLugar
+        return new Centavo(valorFinal)
+    }
 }
 
+//funcion para chequear que sea un lugar valido, antes de instanciar la clase
 function esLugarValidoAlQueSeLlama(unLugarAlQueSeLlama, unLugarAlQueSeEspereLQueLlame){
    return Object.getPrototypeOf(Object.getPrototypeOf(unLugarAlQueSeLlama)).constructor.name === unLugarAlQueSeEspereLQueLlame;
 }

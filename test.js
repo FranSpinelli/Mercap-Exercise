@@ -107,58 +107,58 @@ describe('Llamada Test', function() {
     it('una llamada nacional sabe retornar su valor', () => {
         let momentoDeInicio = new PersonalizedTime(21, 10, new Sabado())
         let llamada = new LlamadaNacional(momentoDeInicio, 10, new CABA())
-        assert.equal(llamada.valorDeLaLlamada, 1);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 100);
     })
 
     it('una llamada internacional sabe retornar su valor', () => {
         let momentoDeInicio = new PersonalizedTime(21, 10, new Sabado())
         let llamada = new LlamadaInternacional(momentoDeInicio, 20, new Uruguay())
-        assert.equal(llamada.valorDeLaLlamada, 6);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 600);
     })
 
     it('una llamada local realizada durante dia no habil sabe retornar su valor', () => {
         let momentoDeInicio = new PersonalizedTime(21, 10, new Sabado())
         let llamada = new LlamadaLocal(momentoDeInicio, 40)
-        assert.equal(llamada.valorDeLaLlamada, 4);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 400);
     })
 
     it('una llamada local realizada durante un dia habil en hora pico sabe retornar su valor', () => {
         let momentoDeInicio = new PersonalizedTime(10, 00, new Lunes())
         let llamada = new LlamadaLocal(momentoDeInicio, 2)
-        assert.equal(llamada.valorDeLaLlamada, 0.40);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 40);
     })
 
     it('una llamada local realizada durante un dia habil en hora no pico sabe retornar su valor', () => {
         let momentoDeInicio = new PersonalizedTime(21, 00, new Lunes())
         let llamada = new LlamadaLocal(momentoDeInicio, 2)
-        assert.equal(llamada.valorDeLaLlamada, 0.20);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 20);
     })
 
     it('una llamada local realizada durante un dia habil que arranca en hora no pico y termina en hora pico sabe retornar su valor',
     () => {
         let momentoDeInicio = new PersonalizedTime(7, 59, new Lunes())
         let llamada = new LlamadaLocal(momentoDeInicio, 2)
-        assert.equal(llamada.valorDeLaLlamada, 0.30);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 30);
     })
 
     it('una llamada local realizada durante un dia habil que arranca en hora pico y termina en hora no pico sabe retornar su valor',
     () => {
         let momentoDeInicio = new PersonalizedTime(19, 59, new Lunes())
         let llamada = new LlamadaLocal(momentoDeInicio, 3)
-        assert.equal(llamada.valorDeLaLlamada, 0.40);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 40);
     })
 
     it('una llamada local que arranca un dia habil y termina un dia no habil sabe retornar su valor',
     () => {
         let momentoDeInicio = new PersonalizedTime(23, 59, new Viernes())
         let llamada = new LlamadaLocal(momentoDeInicio, 6)
-        assert.equal(llamada.valorDeLaLlamada, 0.60);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 60);
     })
 
     it('una llamada local que arranca un dia no habil y termina un dia habil sabe retornar su valor',
     () => {
         let momentoDeInicio = new PersonalizedTime(23, 59, new Domingo())
         let llamada = new LlamadaLocal(momentoDeInicio, 6)
-        assert.equal(llamada.valorDeLaLlamada, 0.60);
+        assert.equal(llamada.valorDeLaLlamada.cantidadDeCentavos, 60);
     })
 });

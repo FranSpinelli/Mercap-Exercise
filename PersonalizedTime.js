@@ -12,8 +12,8 @@ class PersonalizedTime {
         }
     }
 
-    get horaDeInicio(){return this._horaDeInicio;}
-    get cantidadDeMinutosAlIniciarLlamada(){return this._cantidadDeMinutosAlIniciar}
+    get hora(){return this._horaDeInicio;}
+    get minutos(){return this._cantidadDeMinutosAlIniciar}
     get diaDeLaSemana(){return this._diaDeLaSemana;}
 
     esUnaHoraValida(unaHoraDeInicio){

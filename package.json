@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "technical excercise",
   "main": "index.js",
+  "dependencies": {
+    "dollars-to-cents": "^1.0.3"
+  },
   "devDependencies": {
     "mocha": "^5.0.5",
     "chai": "^4.1.2"
