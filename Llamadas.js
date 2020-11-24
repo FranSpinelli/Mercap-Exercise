@@ -17,11 +17,46 @@ class Llamada {
     get minutoDeInicioDeLlamada(){return this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada}
     get diaEnQueSeRealizoLaLlamada(){return this._momentoDeInicio.diaDeLaSemana}
     get duracionEnMinutos(){return this._duracionEnMinutos}
+
+    get valorDeLaLlamada(){
+        throw new Error('Cannot call abstract method')
+    };
 }
 
 class LlamadaLocal extends Llamada {
     constructor(unMomentoDeinicio, unaDuracionEnMinutos){
         super(unMomentoDeinicio, unaDuracionEnMinutos);
+        this._calculadorDeValor = new CalculadorDeValor();
+    }
+
+    get valorDeLaLlamada(){return this._momentoDeInicio.diaDeLaSemana.indicarComoCalcularValorDeLlamada(this)}
+
+    calcularValorDeLlamadaRealizadaDuranteDiaNoHabil(valorDelMinuto, cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
+        valorDeLaLlamadaYaCobrado= 0){
+        
+        let funcionCobradora = (valorActual) => {return valorActual + valorDelMinuto;} 
+
+        return this._calculadorDeValor.calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
+            this._momentoDeInicio.horaDeInicio, this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada, funcionCobradora, this)
+
+    }
+
+    calcularValorDeLlamadaRealizadaDuranteDiaHabil(cantidadDeMinutosPorCobrarDeLaLlamada = this._duracionEnMinutos,
+        valorDeLaLlamadaYaCobrado = 0,
+        horaDeInicio = this._momentoDeInicio.horaDeInicio,
+        minutoDeInicio = this._momentoDeInicio.cantidadDeMinutosAlIniciarLlamada){
+        
+        let funcionCobradora = (valorActual, horaQueSeCobra) => { 
+            if(horaQueSeCobra >= 8 && horaQueSeCobra < 20){
+                return valorActual += 0.20;
+            }else{
+                return valorActual += 0.10;
+            }
+        }
+        
+        return this._calculadorDeValor.calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado,
+            horaDeInicio, minutoDeInicio, funcionCobradora, this)
+    
     }
 }
 
@@ -55,6 +90,34 @@ function esLugarValidoAlQueSeLlama(unLugarAlQueSeLlama, unLugarAlQueSeEspereLQue
    return Object.getPrototypeOf(Object.getPrototypeOf(unLugarAlQueSeLlama)).constructor.name === unLugarAlQueSeEspereLQueLlame;
 }
 
+class CalculadorDeValor{
+    //esta tiene como unico proposito sacarle la tarea del calculo del valor a la llamadaLocal, ya que este calculo es considerado complejo
+    calcularValorDeLlamadaAPartirDeDatos(cantidadDeMinutosPorCobrarDeLaLlamada, valorDeLaLlamadaYaCobrado, horaDeInicio, minutoDeInicio,
+        funcionCobradora, unaLlamada){
+            
+        let horaDesdeLaQueSeCobra = horaDeInicio;
+        let minutoDesdeElQueSeCobra = minutoDeInicio;
+        let cantidadMinutosPorCobrar = cantidadDeMinutosPorCobrarDeLaLlamada;
+        let valorFinalDellamada = valorDeLaLlamadaYaCobrado;
+    
+        while(cantidadMinutosPorCobrar > 0){
+            valorFinalDellamada = funcionCobradora(valorFinalDellamada, horaDesdeLaQueSeCobra)
+    
+            cantidadMinutosPorCobrar--;
+            minutoDesdeElQueSeCobra++;
+            if(minutoDesdeElQueSeCobra > 59){
+                minutoDesdeElQueSeCobra = 0;
+                horaDesdeLaQueSeCobra++;                    if(horaDesdeLaQueSeCobra > 23){
+                    let siguienteDia = unaLlamada.diaEnQueSeRealizoLaLlamada.getDiaSiguiente()
+                    valorFinalDellamada = siguienteDia.indicarComoCalcularValorDeLlamada(unaLlamada, cantidadMinutosPorCobrar, valorFinalDellamada, 0, 0)
+                    break;
+                }
+            }
+        }
+
+        return Number(valorFinalDellamada.toFixed(2))
+    }
+}
 module.exports = {
     Llamada : Llamada,
     LlamadaLocal : LlamadaLocal,

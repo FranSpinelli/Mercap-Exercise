@@ -1,6 +1,6 @@
 const errores = require("./Errores");
 
-class MomentoDeInicioDeLlamada {
+class PersonalizedTime {
 
     constructor(unaHoraDeInicio, unaCantidadDeMinutos, unDiaDeLaSemana){
         if (this.esUnaHoraValida(unaHoraDeInicio) && this.esUnaCantidadDeMinutosValida(unaCantidadDeMinutos)){
@@ -26,5 +26,5 @@ class MomentoDeInicioDeLlamada {
 }
 
 module.exports = {
-    MomentoDeInicioDeLlamada : MomentoDeInicioDeLlamada
+    PersonalizedTime : PersonalizedTime
 }
