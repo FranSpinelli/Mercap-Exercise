@@ -14,9 +14,6 @@ class DiaDeLaSemana{
         throw new Error('Cannot call abstract method')
     }
 
-    seguirCobrandoCon(){
-        throw new Error('Cannot call abstract method')
-    }
 }
 
 class DiaNoHabil extends DiaDeLaSemana{
